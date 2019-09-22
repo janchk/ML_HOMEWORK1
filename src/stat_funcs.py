@@ -11,6 +11,7 @@ def RMSE(ground_truth, list_of_vectors):
 
     return RMSE_res
 
+
 def MSE(ground_truth, list_of_vectors):
     MSE_res = 0
     for vect in list_of_vectors:
