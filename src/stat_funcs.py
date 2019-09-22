@@ -11,6 +11,7 @@ def RMSE(ground_truth, list_of_vectors):
 
     return RMSE_res
 
+
 # list of vectors
 def MSE(ground_truth, list_of_vectors):
     MSE_res = 0
@@ -25,7 +26,7 @@ def MSE(ground_truth, list_of_vectors):
 def MSE_gradient(X, ground_truth, prediction):
     N = len(X)
 
-    return (1/N) * X.T.dot((prediction - ground_truth))
+    return (1 / N) * X.T.dot((prediction - ground_truth))
 
 #
 # def R2():
