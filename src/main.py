@@ -1,8 +1,10 @@
 import numpy as np
 import pandas as pd
+
+from src.Lin_reg import lin_regression
 from src.parse_csv import read_csv
 from src.SGD import gradient_desc
-from sklearn import preprocessing
+from src.stat_funcs import RMSE, R2
 
 
 def normalized(a, axis=-1, order=2):
@@ -17,20 +19,21 @@ def normalized(a, axis=-1, order=2):
 # np.no
 # for row in x:
 
-
-
-if __name__ == "__main__":
+def get_csv_data():
     path = "../Dataset/Training/"
     csv_file = path + "Features_Variant_1.csv"
     df = read_csv(csv_file)
-    df_array = df.values
+    return df.values
+
+if __name__ == "__main__":
+    df_array = get_csv_data()
+
     # X = [row[0:28, 35:53] for row in df_array]
     X = [np.hstack((row[0:29], row[34:54])) for row in df_array]
-    X = preprocessing.normalize(X)
-    # X = normalized(X)
+    X = normalized(X)
     Y = [row[29] for row in df_array]
-    # Y = normalized(Y).T
-    Y = np.expand_dims(Y, axis=-1)
+    Y = normalized(Y).T
+    # Y = np.expand_dims(Y, axis=-1)
     betas = np.random.rand(49)
 
     # gd = gradient_desc(X,Y, betas)
