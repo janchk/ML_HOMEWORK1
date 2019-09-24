@@ -27,8 +27,11 @@ def get_csv_data():
 def validate(y, test_features, betas, bias):
     predictions = lin_regression(test_features, betas, bias)
 
-    print("R2 is {}", R2(y, predictions))
-    print("RMSE is {}", sqrt(mse(y, predictions)))
+    r2_val = R2(y, predictions)
+    rmse_val = sqrt(mse(y, predictions))
+    print("R2 is {}", r2_val)
+    print("RMSE is {}", rmse_val)
+    print("R2/RMSE is {}", r2_val/rmse_val)
 
 
 
