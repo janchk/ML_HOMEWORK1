@@ -23,10 +23,11 @@ def MSE(ground_truth, list_of_vectors):
     return MSE_res
 
 
-def MSE_gradient(X, ground_truth, prediction):
-    N = len(X)
+def MSE_gradient(ground_truth, prediction):
+    return (2/len(prediction)) * (ground_truth - prediction)
+    # N = len(X)
 
-    return (1 / N) * X.T.dot((prediction - ground_truth))
+    # return (1 / N) * X.T.dot((prediction - ground_truth))
 
 #
 # def R2():
