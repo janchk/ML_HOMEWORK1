@@ -2,8 +2,12 @@ import numpy as np
 import pandas as pd
 
 # from src.Lin_reg import lin_regression
+from math import sqrt
+
 from src.parse_csv import read_csv
-from src.SGD import gradient_desc
+from src.SGD import *
+
+
 # from src.stat_funcs import RMSE, R2
 
 
@@ -13,17 +17,19 @@ def normalized(a, axis=-1, order=2):
     return a / np.expand_dims(l2, axis)
 
 
-# def normalize(x):
-#     x = x.trnspose()
-
-# np.no
-# for row in x:
-
 def get_csv_data():
     path = "../Dataset/Training/"
     csv_file = path + "Features_Variant_1.csv"
     df = read_csv(csv_file)
     return df.values
+
+
+def validate(y, test_features, betas, bias):
+    predictions = lin_regression(test_features, betas, bias)
+
+    print("R2 is {}", R2(y, predictions))
+    print("RMSE is {}", sqrt(mse(y, predictions)))
+
 
 
 if __name__ == "__main__":
@@ -38,6 +44,8 @@ if __name__ == "__main__":
     # betas = np.ones(49)
     betas = np.expand_dims(np.random.rand(49), axis=-1)
 
-    # gd = gradient_desc(X,Y, betas)
-    gd = gradient_desc(X, Y, betas)
+    (final_betas, final_bias) = gradient_desc(X, Y, betas)
+
+
+
     pass

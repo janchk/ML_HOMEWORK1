@@ -22,6 +22,6 @@ def gradient_desc(X, Y, betas, bias=0, learning_rate=0.1, iterations_number=1000
         betas = betas - learning_rate * mse_gradient_betas(X,  Y, prediction)
         print("iteration is {} error is {}, Y is {}, pred is {}, bias is {}".format(it, MSE, Y[2], prediction[2], bias))
 
-    return betas
+    return (betas, bias)
 
 # if __name__ == "__main__":
