@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 
-from src.Lin_reg import lin_regression
+# from src.Lin_reg import lin_regression
 from src.parse_csv import read_csv
 from src.SGD import gradient_desc
-from src.stat_funcs import RMSE, R2
+# from src.stat_funcs import RMSE, R2
 
 
 def normalized(a, axis=-1, order=2):
@@ -25,6 +25,7 @@ def get_csv_data():
     df = read_csv(csv_file)
     return df.values
 
+
 if __name__ == "__main__":
     df_array = get_csv_data()
 
@@ -32,9 +33,10 @@ if __name__ == "__main__":
     X = [np.hstack((row[0:29], row[34:54])) for row in df_array]
     X = normalized(X)
     Y = [row[29] for row in df_array]
-    Y = normalized(Y).T
-    # Y = np.expand_dims(Y, axis=-1)
-    betas = np.random.rand(49)
+    # Y = normalized(Y).T
+    Y = np.expand_dims(Y, axis=-1)
+    # betas = np.ones(49)
+    betas = np.expand_dims(np.random.rand(49), axis=-1)
 
     # gd = gradient_desc(X,Y, betas)
     gd = gradient_desc(X, Y, betas)
