@@ -21,6 +21,12 @@ def R2(Y, predictions):
 
 
 def mse_gradient_betas(X, ground_truth, prediction):
+    """
+    :param X: Features
+    :param ground_truth:
+    :param prediction:
+    :return: derivative of MSE function
+    """
     return (-2 / len(prediction)) * X.T.dot((ground_truth - prediction))
 
 
