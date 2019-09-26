@@ -20,29 +20,6 @@ from src.models import LinearRegressionWithGd
 
 path = "../Dataset/Training/"
 
-source = None
-
-
-# @gen.coroutine
-# def update(new_data):
-#     """
-#     Func to update source by adding new data
-#     :param new_data:
-#     """
-#     source.stream(new_data)
-
-
-# def visualize(data_dict):
-#     source = ColumnarDataSource(
-#         data=data_dict
-#     )
-#     plot = figure()
-#     plot.line(x='epochs', y="R2", color="green", alpha=0.8, legend="R2", line_witdh=2, source=source)
-#     doc = curdoc()
-#     # Add the plot to the current document
-#     doc.add_root(plot)
-#     return doc, source
-
 
 def normalized(a, axis=-1, order=2):
     l2 = np.atleast_1d(np.linalg.norm(a, order, axis))
@@ -53,6 +30,13 @@ def normalized(a, axis=-1, order=2):
 def get_csv_data(fpath):
     df = pd.read_csv(fpath)
     return df.values
+
+
+def cv_loo(ds, fnum, num):
+    folds = np.array_split(ds, fnum)
+    test = folds.pop(num)
+    train = np.vstack(folds)
+    return train, test
 
 
 def folding(path):
@@ -67,15 +51,19 @@ if __name__ == "__main__":
 
     lrg = LinearRegressionWithGd()
 
-    df_array_train, df_array_test = folding(path)
+    df_1, df_2 = folding(path)
 
-    X_train = normalized([np.hstack((row[0:29], row[34:54])) for row in df_array_train])
-    X_test = normalized([np.hstack((row[0:29], row[34:54])) for row in df_array_test])
+    train, test = cv_loo(df_1, 5, 1)
 
-    Y_train = [row[29] for row in df_array_train]
+    # X_train = normalized(np.hstack(test.T[0:29], test.T[34:54])).T
+
+    X_train = normalized([np.hstack((row[0:29], row[34:54])) for row in train])
+    X_test = normalized([np.hstack((row[0:29], row[34:54])) for row in test])
+
+    Y_train = [row[29] for row in train]
     Y_train = np.expand_dims(Y_train, axis=-1)
 
-    Y_test = [row[29] for row in df_array_test]
+    Y_test = [row[29] for row in test]
     Y_test = np.expand_dims(Y_test, axis=-1)
 
     lrg.train(1000, X_train, Y_train)
