@@ -1,4 +1,5 @@
 venv/ 
 Dataset/
-.idea
+.idea/
+.vscode/
 data

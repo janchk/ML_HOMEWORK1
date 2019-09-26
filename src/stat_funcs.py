@@ -12,8 +12,8 @@ def mse(ground_truth, predictions):
 
 
 def R2(Y, predictions):
-    mean_pred_value = sum(predictions) / len(predictions)
-
+    mean_pred_value = sum(Y) / len(Y)
+    # np.mean(Y)
     SS_tot = sum((Y - mean_pred_value) ** 2)
     SS_res = sum((Y - predictions) ** 2)
 
