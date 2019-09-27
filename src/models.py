@@ -44,7 +44,7 @@ class LinearRegressionWithGd:
 
     def validate(self, x, y):
         y_pred = self.__regression(x)
-        r2_val = R2(y, y_pred)
+        r2_val = r2(y, y_pred)
         mse_val = mse(y, y_pred)
         rmse_val = mse_val**(1/2)
         r2_rmse = r2_val/rmse_val
