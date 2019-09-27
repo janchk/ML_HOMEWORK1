@@ -19,9 +19,8 @@ class LinearRegressionWithGd:
     
     def __create_minibatch(self, x, y):
         data = np.hstack((x, y))
-        mini_batches = (data.T[0:53].T, data.T[53].T)
-        mini_batches = (np.array_split(mini_batches[0], self.batch_size), 
-                        np.array_split(mini_batches[1], self.batch_size))
+        mini_batches = (np.array_split(data, self.batch_size))
+        mini_batches = [(mb.T[0:53].T, np.expand_dims(mb.T[53].T, axis=-1)) for mb in mini_batches]
         return mini_batches
 
     def __minibatch_gradient_descent(self, x, y):
@@ -29,8 +28,8 @@ class LinearRegressionWithGd:
         for mini_batch in mini_batches:
             x_mini, y_mini = mini_batch
             y_pred_mini = self.__regression(x_mini)
-            self.bias = self.bias - self.learning_rate * (mse_gradient_bias(y, y_pred_mini))
-            self.betas = self.betas - self.learning_rate * (mse_gradient_betas(x, y, y_pred_mini))
+            self.bias = self.bias - self.learning_rate * (mse_gradient_bias(y_mini, y_pred_mini))
+            self.betas = self.betas - self.learning_rate * (mse_gradient_betas(x_mini, y_mini, y_pred_mini))
 
     def __gradient_descent(self, x, y, y_pred):
         self.bias = self.bias - self.learning_rate * (mse_gradient_bias(y, y_pred))
@@ -39,14 +38,14 @@ class LinearRegressionWithGd:
     def train(self, n_epochs, x, y):
         for epoch in range(n_epochs):
             y_pred = self.__regression(x)
-            self.__gradient_descent(x, y, y_pred)
-            # self.__minibatch_gradient_descent(x, y)
+            # self.__gradient_descent(x, y, y_pred)
+            self.__minibatch_gradient_descent(x, y)
             print("train loss is {}".format(mse(y, y_pred)))
 
     def validate(self, x, y):
         y_pred = self.__regression(x)
-        r2_val = R2(y, y_pred)[0]
-        mse_val = mse(y, y_pred)[0]
+        r2_val = R2(y, y_pred)
+        mse_val = mse(y, y_pred)
         rmse_val = mse_val**(1/2)
         r2_rmse = r2_val/rmse_val
         print("val loss is {}, R2 is {}, RMSE is {}, R2/RMSE is {}".format(

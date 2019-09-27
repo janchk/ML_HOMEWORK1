@@ -1,8 +1,3 @@
-import numpy as np
-import os
-import random as rnd
-import pandas as pd
-
 # from math import sqrt
 #
 # #Bokeh
@@ -16,40 +11,17 @@ import pandas as pd
 # from tornado import gen
 
 from models import LinearRegressionWithGd
-# from src.SGD import *
+from common import *
 
-path = "/home/jan/Documents/gradient_descent_with_linear_regr/Dataset/Training/"
-
-
-def normalized(a, axis=-1, order=2):
-    l2 = np.atleast_1d(np.linalg.norm(a, order, axis))
-    l2[l2 == 0] = 1
-    return a / np.expand_dims(l2, axis)
-
-
-def get_csv_data(fpath):
-    df = pd.read_csv(fpath)
-    return df.values
-
-
-def cv_loo(ds, fnum, num):
-    folds = np.array_split(ds, fnum)
-    test = folds.pop(num)
-    train = np.vstack(folds)
-    return train, test
-
-
-def folding(path):
-    fs_iter = [path + fpath for fpath in os.listdir(path) if fpath.endswith(".csv")]
-    train = get_csv_data(fs_iter[rnd.randint(0, 4)])
-    test = get_csv_data(fs_iter[rnd.randint(0, 4)])
-
-    return train, test
-
+# path = "/home/jan/Documents/gradient_descent_with_linear_regr/Dataset/Training/"
+path = "../Dataset/Training/"
 
 if __name__ == "__main__":
 
     num_folds = 5
+    epochs = 1000
+    learning_rate = 0.0001
+
     lrg = LinearRegressionWithGd()
 
     df_1, df_2 = folding(path)
@@ -68,8 +40,8 @@ if __name__ == "__main__":
         Y_test = test.T[53].T
         Y_test = np.expand_dims(Y_test, axis=-1)
 
-        lrg.learning_rate = 0.0001
-        lrg.train(10, X_train, Y_train)
+        lrg.learning_rate = learning_rate
+        lrg.train(epochs, X_train, Y_train)
         stat = lrg.validate(X_test, Y_test)
         stats.append(stat)
     

@@ -8,14 +8,13 @@ def mse(ground_truth, predictions):
     :param predictions: vectors of predicted values
     :return: Mean Square Error
     """
-    return sum((ground_truth - predictions)**2)/len(predictions)
+    return np.sum((ground_truth - predictions)**2)/len(predictions)
 
 
 def R2(Y, predictions):
-    mean_pred_value = sum(Y) / len(Y)
-    # np.mean(Y)
-    SS_tot = sum((Y - mean_pred_value) ** 2)
-    SS_res = sum((Y - predictions) ** 2)
+    mean_pred_value = np.mean(Y)
+    SS_tot = np.sum((Y - mean_pred_value) ** 2)
+    SS_res = np.sum((Y - predictions) ** 2)
 
     return 1 - (SS_res / SS_tot)
 
