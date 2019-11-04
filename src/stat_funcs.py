@@ -8,20 +8,25 @@ def mse(ground_truth, predictions):
     :param predictions: vectors of predicted values
     :return: Mean Square Error
     """
-    return sum((ground_truth - predictions)**2)/len(predictions)
+    return np.sum((ground_truth - predictions)**2)/len(predictions)
 
 
-def R2(Y, predictions):
-    mean_pred_value = sum(predictions) / len(predictions)
+def r2(y, predictions):
+    mean_pred_value = np.mean(y)
+    ss_tot = np.sum((y - mean_pred_value) ** 2)
+    ss_res = np.sum((y - predictions) ** 2)
 
-    SS_tot = sum((Y - mean_pred_value) ** 2)
-    SS_res = sum((Y - predictions) ** 2)
-
-    return 1 - (SS_res / SS_tot)
+    return 1 - (ss_res / ss_tot)
 
 
-def mse_gradient_betas(X, ground_truth, prediction):
-    return (-2 / len(prediction)) * X.T.dot((ground_truth - prediction))
+def mse_gradient_betas(x, ground_truth, prediction):
+    """
+    :param x: Features
+    :param ground_truth:
+    :param prediction:
+    :return: derivative of MSE function
+    """
+    return (-2 / len(prediction)) * x.T.dot((ground_truth - prediction))
 
 
 def mse_gradient_bias(ground_truth, prediction):

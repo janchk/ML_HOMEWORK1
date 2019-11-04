@@ -1,4 +1,6 @@
 venv/ 
 Dataset/
 .idea
+.vscode
 data
+__pycache__
