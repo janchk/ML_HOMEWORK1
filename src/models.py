@@ -1,6 +1,7 @@
 from stat_funcs import *
+from tqdm import tqdm, tqdm_notebook
 import numpy as np
-
+from common import in_ipynb
 
 class LinearRegressionWithGd:
     def __init__(self):
@@ -18,9 +19,8 @@ class LinearRegressionWithGd:
         return x.dot(self.betas) + self.bias
     
     def __create_minibatch(self, x, y):
-        data = np.hstack((x, y))
-        mini_batches = (np.array_split(data, self.batch_size))
-        mini_batches = [(mb.T[0:53].T, np.expand_dims(mb.T[53].T, axis=-1)) for mb in mini_batches]
+        mini_batches = (np.array_split(np.hstack((x, y)), self.batch_size))
+        mini_batches = ((mb.T[0:53].T, np.expand_dims(mb.T[53].T, axis=-1)) for mb in mini_batches)
         return mini_batches
 
     def __minibatch_gradient_descent(self, x, y):
@@ -36,11 +36,23 @@ class LinearRegressionWithGd:
         self.betas = self.betas - self.learning_rate * (mse_gradient_betas(x, y, y_pred))
 
     def train(self, n_epochs, x, y):
-        for epoch in range(n_epochs):
+        loss = 0
+        if in_ipynb():
+            tqdm_b = tqdm_notebook
+        else:
+            tqdm_b = tqdm
+
+        bar = tqdm_b(range(n_epochs), total=n_epochs)
+        for _ in bar:
             y_pred = self.__regression(x)
             # self.__gradient_descent(x, y, y_pred)
             self.__minibatch_gradient_descent(x, y)
-            print("train loss is {}".format(mse(y, y_pred)))
+            stat = mse(y, y_pred)
+            bar.set_description(f"Loss: {stat:.4f}")
+            loss += stat
+        loss = loss / n_epochs
+        return loss
+
 
     def validate(self, x, y):
         y_pred = self.__regression(x)

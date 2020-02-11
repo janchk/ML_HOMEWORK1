@@ -1,10 +1,9 @@
-
 from models import LinearRegressionWithGd
 from common import *
 
 # path = "/home/jan/Documents/gradient_descent_with_linear_regr/Dataset/Training/"
 # path = "../Dataset/Training/"
-path = "Dataset/Training/"
+path = "../Dataset/Training/"
 
 if __name__ == "__main__":
 
@@ -31,12 +30,13 @@ if __name__ == "__main__":
         Y_test = test.T[53].T
         Y_test = np.expand_dims(Y_test, axis=-1)
 
-        lrg.learning_rate = learning_rate
         lrg.train(epochs, X_train, Y_train)
         stat = lrg.validate(X_test, Y_test)
         stats.append(stat)
+        print(lrg.betas.T)
+        print(lrg.bias)
     
-    mean_stats = np.sum(stats, axis=0)/num_folds
+    mean_stats = np.sum(stats, axis=0) / num_folds
     print("mse is {}, r2_val is {}, rmse is {}, r2/rmse {}".format(
         mean_stats[0], mean_stats[1], mean_stats[2], mean_stats[3]))
 
