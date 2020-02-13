@@ -1,5 +1,5 @@
-from models import LinearRegressionWithGd
-from common import *
+from src.models import LinearRegressionWithGd
+from src.common import *
 
 # path = "/home/jan/Documents/gradient_descent_with_linear_regr/Dataset/Training/"
 # path = "../Dataset/Training/"

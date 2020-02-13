@@ -1,7 +1,6 @@
-from stat_funcs import *
 from tqdm import tqdm, tqdm_notebook
-import numpy as np
-from common import in_ipynb
+from .stat_funcs import *
+from .common import in_ipynb
 
 class LinearRegressionWithGd:
     def __init__(self):
