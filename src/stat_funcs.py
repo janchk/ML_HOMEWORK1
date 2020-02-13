@@ -8,7 +8,7 @@ def mse(ground_truth, predictions):
     :param predictions: vectors of predicted values
     :return: Mean Square Error
     """
-    return np.sum((ground_truth - predictions)**2)/len(predictions)
+    return np.mean((ground_truth - predictions)**2)
 
 
 def r2(y, predictions):

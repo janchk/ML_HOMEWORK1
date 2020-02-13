@@ -15,10 +15,17 @@ def in_ipynb():
         return False
 
 
+def normalized_old(a, axis=-1, order=2):
+    l2 = np.atleast_1d(np.linalg.norm(a, order, axis))
+    l2[l2 == 0] = 1
+    return a / np.expand_dims(l2, axis)
+
+
 def normalized(a):
-    mean = np.mean(a)
-    std = np.std(a)
+    mean = np.mean(a, axis=0)
+    std = np.std(a, axis=0)
     std[std == 0] = 1
+    std[std == np.nan] = 1
     return (a - mean) / std
 
 

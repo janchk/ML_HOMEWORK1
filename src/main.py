@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     num_folds = 5
     epochs = 1000
-    learning_rate = 0.1
+    learning_rate = 1e-3
 
     lrg = LinearRegressionWithGd()
     lrg.learning_rate = learning_rate
@@ -21,8 +21,8 @@ if __name__ == "__main__":
     for i in range(num_folds):
         train, test = cv_loo(df_1, num_folds, i)
 
-        X_train = normalized(train.T[0:53]).T
-        X_test = normalized(test.T[0:53]).T
+        X_train = normalized(train.T[0:53].T)
+        X_test = normalized(test.T[0:53].T)
 
         Y_train = train.T[53].T
         Y_train = np.expand_dims(Y_train, axis=-1)
